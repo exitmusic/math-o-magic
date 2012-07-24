@@ -3,7 +3,7 @@ math-o-magic
 
 Math trivia game!
 
-# Helpful resources
+### Helpful resources
 * http://derbyjs.com/
 * http://socket.io/
 * https://github.com/codeparty/derby-examples
