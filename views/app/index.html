@@ -22,15 +22,34 @@
   <ui:connectionAlert>
 
 <Body:>
-  <h1>{_room.welcome}</h1>
-  <h2>Your user id is: {_player.id}</h2>
-  <h2>Number of players: {players.numOfPlayers}</h2>
-  <p><label>Welcome message: <input value="{_room.welcome}"></label></p>
-
-  <!-- Other templates are referenced like HTML elements -->
-  <p>This page has been visted {_room.visits} times. <app:timer></p>
-
-  <p>Let's go <a href="/{{randomUrl}}">somewhere random</a>.</p>
+  <header>
+    <h1>Math-o-Magic - Mental Math Edition</h1>
+  </header>
+  <div id="main-content">
+    <div id="game-board">
+      <div id="question-wrap">
+        <h2>
+          <span class="question-header">Q.</span>
+          <span class="question">4 * 4 = ?</span>
+        </h2>
+      </div>
+      <div id="answer-wrap">
+        <form action="/answer" method="post">
+	        <label for="answer">A.</label>
+	        <input id="answer" type="text">
+	        <input id="answer-submit" type="submit">
+        </form>
+      </div>
+    </div>
+	  <h2>Your user id is: {_player.id}</h2>
+	  <h2>Number of players: {players.numOfPlayers}</h2>
+	  <p><label>Welcome message: <input value="{_room.welcome}"></label></p>
+	
+	  <!-- Other templates are referenced like HTML elements -->
+	  <p>This page has been visted {_room.visits} times. <app:timer></p>
+	
+	  <p>Let's go <a href="/{{randomUrl}}">somewhere random</a>.</p>
+  </div>
 
 <timer:>
   {#if _stopped}

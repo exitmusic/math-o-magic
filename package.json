@@ -1,10 +1,10 @@
 {
   "name": "math-o-magic",
   "description": "",
-  "version": "0.0.0",
+  "version": "0.0.0-5",
   "engines": {
-    "node": "0.8.x",
-    "npm":  "1.1.x"
+    "node": "0.6.x",
+    "npm": "1.1.44"
   },
   "main": "./server.js",
   "dependencies": {
@@ -13,5 +13,9 @@
     "gzippo": ">=0.1.7",
     "underscore": "1.3.3"
   },
-  "private": true
+  "private": true,
+  "subdomain": "math-o-magic",
+  "scripts": {
+    "start": "server.js"
+  }
 }
