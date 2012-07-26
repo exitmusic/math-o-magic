@@ -35,9 +35,10 @@
       </div>
       <div id="answer-wrap">
         <form action="/answer" method="post">
+          <input type="hidden" name="userid" value="{_player.id}" />
 	        <label for="answer">A.</label>
-	        <input id="answer" type="text">
-	        <input id="answer-submit" type="submit">
+	        <input id="answer" name="answer" type="text" />
+	        <input id="answer-submit" type="submit" />
         </form>
       </div>
     </div>

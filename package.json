@@ -1,7 +1,7 @@
 {
   "name": "math-o-magic",
   "description": "",
-  "version": "0.0.0-5",
+  "version": "0.0.0-6",
   "engines": {
     "node": "0.6.x",
     "npm": "1.1.44"
