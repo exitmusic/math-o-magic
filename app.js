@@ -15,9 +15,32 @@ var app = express()
 	
 
 // From http://www.danielbaulig.de/socket-ioexpress/
-var parseCookie = require('./utils').parseCookie;
+var parseCookie = require('./utils').parseCookie
+	, MemoryStore = express.session.MemoryStore
+	, sessionStore = new MemoryStore()
+	, Session = require('connect').middleware.session.Session;
 
 io.set('authorization', function (data, accept) {
+  if (data.headers.cookie) {
+    data.cookie = parseCookie(data.headers.cookie);
+    data.sessionID = data.cookie['express.sid'];
+    data.sessionStore = sessionStore;
+    console.log(data.sessionID);
+    sessionStore.get(data.sessionID, function (err, session) {
+      if (err || !session) {
+        accept('Error', false);
+      } else {
+        data.session = new Session(data, session);
+        accept(null, true);
+      }
+    });
+  } else {
+     return accept('No cookie transmitted.', false);
+  }
+});
+
+// works
+/*io.set('authorization', function (data, accept) {
   if (data.headers.cookie) {
     data.cookie = parseCookie(data.headers.cookie);
     data.sessionID = data.cookie['express.sid'];
@@ -25,7 +48,18 @@ io.set('authorization', function (data, accept) {
   	return accept('No cookie transmitted.', false);
   }
   accept(null, true);
-});
+});*/
+
+// fails
+/*io.set('authorization', function(data, fn){
+  var cookies = parseCookie(data.headers.cookie)
+    , sid = cookies['connect.sid'];
+  app.store.load(sid, function(err, sess){
+    if (err) return fn(err);
+    data.session = sess;
+    fn(null, true);
+  });
+});*/
 
 io.sockets.on('connection', function (socket) {
 	/*console.log('sessionID: '+socket.handshake.sessionID);
@@ -48,7 +82,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
-  app.use(express.session({secret: 'secret', key: 'express.sid'}));
+  app.use(express.session({store: sessionStore, secret: 'secret', key: 'express.sid'}));
   app.use(app.router);
   app.use(require('connect-less')({ src: __dirname + '/public/', compress: true }));
   app.use(express.static(path.join(__dirname, 'public')));
