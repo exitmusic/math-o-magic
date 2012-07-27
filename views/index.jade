@@ -1,14 +1,26 @@
 extends layout
 
+block css
+  link(rel='stylesheet', href='/stylesheets/home.css')
+
+block content
+  h1 Math-o-Magic Math Trivia - Mental Math Edition
+  #main-content
+    #game-board
+      #question
+        h2 Q. 4 * 4 = ?
+      #answer
+        form(action="/answer", method="post")
+          label(for="user-answer") 
+            h2 A.
+          input#user-answer(name="user-answer", type="text")
+          input(type="submit")
+          
 block script
   script(src="/socket.io/socket.io.js")
   script
     var socket = io.connect('http://localhost');
-    socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
-    });
-
-block content
-  h1= title
-  p Welcome to #{title}
+    //socket.on('news', function (data) {
+    //  console.log(data);
+    //  socket.emit('my other event', { my: 'data' });
+    //});

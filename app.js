@@ -28,11 +28,13 @@ io.set('authorization', function (data, accept) {
 });
 
 io.sockets.on('connection', function (socket) {
-	console.log('sessionID: '+socket.handshake.sessionID)
+	/*console.log('sessionID: '+socket.handshake.sessionID);
   socket.emit('news', { hello: 'world' });
   socket.on('my other event', function (data) {
-    //console.log(data);
-  });
+    console.log(data);
+  });*/
+	console.log('sessionID: '+socket.handshake.sessionID);
+	socket.join(socket.handshake.sessionID);
 });
 
 app.configure(function(){
@@ -46,6 +48,7 @@ app.configure(function(){
   app.use(express.cookieParser());
   app.use(express.session({secret: 'secret', key: 'express.sid'}));
   app.use(app.router);
+  app.use(require('connect-less')({ src: __dirname + '/public/', compress: true }));
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
@@ -53,7 +56,11 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/', function(req, res){
+  res.render('index', { title: 'Express' });
+  console.log('-------------------'+req.sessionID);
+  console.log(req.session.value);
+});
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
