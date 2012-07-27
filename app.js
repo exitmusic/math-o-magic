@@ -33,7 +33,9 @@ io.sockets.on('connection', function (socket) {
   socket.on('my other event', function (data) {
     console.log(data);
   });*/
-	console.log('sessionID: '+socket.handshake.sessionID);
+	socket.on('message', function (msg) {
+		console.log(msg);
+	});
 	socket.join(socket.handshake.sessionID);
 });
 
@@ -57,9 +59,9 @@ app.configure('development', function(){
 });
 
 app.get('/', function(req, res){
-  res.render('index', { title: 'Express' });
-  console.log('-------------------'+req.sessionID);
-  console.log(req.session.value);
+	res.render('index', { title: 'Express' });
+	console.log('sessionID: '+req.sessionID);
+	io.sockets.in(req.sessionID).send('Man, good to see you back!');
 });
 
 server.listen(app.get('port'), function(){
