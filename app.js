@@ -24,10 +24,10 @@ io.set('authorization', function (data, accept) {
   if (data.headers.cookie) {
     data.cookie = parseCookie(data.headers.cookie);
     data.sessionID = data.cookie['express.sid'];
+    console.log('1. '+data.sessionID);
     data.sessionStore = sessionStore;
-    console.log(data.sessionID);
     sessionStore.get(data.sessionID, function (err, session) {
-      if (err || !session) {
+      if (err) {
         accept('Error', false);
       } else {
         data.session = new Session(data, session);
@@ -71,6 +71,8 @@ io.sockets.on('connection', function (socket) {
 		console.log(msg);
 	});
 	socket.join(socket.handshake.sessionID);
+	console.log('2. '+socket.handshake.sessionID);
+	//socket.join('trivia-room');
 });
 
 app.configure(function(){
@@ -94,8 +96,9 @@ app.configure('development', function(){
 
 app.get('/', function(req, res){
 	res.render('index', { title: 'Express' });
-	console.log('sessionID: '+req.sessionID);
+	console.log('3. '+req.sessionID);
 	io.sockets.in(req.sessionID).send('Man, good to see you back!');
+	//io.sockets.in('trivia-room').send('entered trivia room');
 });
 
 server.listen(app.get('port'), function(){

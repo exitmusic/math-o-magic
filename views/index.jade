@@ -25,7 +25,7 @@ block script
     //  socket.emit('my other event', { my: 'data' });
     //});
     socket.on('connect', function () {
-      socket.send('hi from the client');
+      //socket.send('hi from the client');
       socket.on('message', function (msg) {
         console.log(msg);
       })
