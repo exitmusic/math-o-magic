@@ -6,6 +6,8 @@ block css
 block content
   h1 Math-o-Magic Math Trivia - Mental Math Edition
   #main-content
+    #num-of-players
+      h2 Number of players connected: #{numOfPlayers}
     #game-board
       #question
         h2 Q. 4 * 4 = ?
@@ -26,7 +28,11 @@ block script
     //});
     socket.on('connect', function () {
       //socket.send('hi from the client');
-      socket.on('message', function (msg) {
+      socket.on('news', function (msg) {
         console.log(msg);
+        //socket.emit('from client', 'hello, from client');
       })
+      socket.on('message', function (message) {
+        console.log(message);
+      });
     })
