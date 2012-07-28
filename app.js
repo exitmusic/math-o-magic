@@ -71,7 +71,7 @@ app.get('/', function(req, res){
 	var numOfPlayers = Object.keys(io.sockets.in('trivia-room').manager.connected).length;
 	res.render('index', { 
 			title: 'Express'
-		, numOfPlayers: numOfPlayers
+		, numOfPlayers: numOfPlayers //TODO: instead of passing as a variable, this should update the view in real time
 	});
 });
 
