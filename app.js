@@ -8,7 +8,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
-  , io = require('socket.io');
+  , io = require('socket.io')
+  , QuestionGenerator = require('./app/models/question-generator');
 
 var app = express()
 	, server = http.createServer(app)
@@ -17,7 +18,11 @@ var app = express()
 
 // From http://www.danielbaulig.de/socket-ioexpress/
 var parseCookie = require('./utils').parseCookie;
-
+var triviaMaster = new QuestionGenerator();
+triviaMaster.init();
+console.log(triviaMaster.question);
+console.log(triviaMaster.timeRemaining);
+triviaMaster.startTimer();
 // works
 io.configure(function () {
 	io.set('authorization', function (data, callback) { // data = handshake data

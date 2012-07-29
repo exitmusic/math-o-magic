@@ -1,7 +1,6 @@
 function routes(app, io) {
 	app.get('/', function(req, res){
 		//io.sockets.in(req.sessionID).send('Man, good to see you back!');
-		io.sockets.in('trivia-room').send(Object.keys(io.sockets.clients('trivia-room')));
 		var numOfPlayers = io.sockets.clients('trivia-room').length;
 		res.render('index', { 
 				title: 'Express'
