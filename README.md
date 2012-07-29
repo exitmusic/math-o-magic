@@ -3,6 +3,9 @@ math-o-magic
 
 Math trivia game!
 
+### File Structure
+* /app
+
 ### Helpful resources
 * http://derbyjs.com/
 * http://socket.io/

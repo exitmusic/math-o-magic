@@ -48,7 +48,7 @@ io.sockets.on('connection', function (socket) {
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
+  app.set('views', __dirname + '/app/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
@@ -74,6 +74,10 @@ app.get('/', function(req, res){
 		, numOfPlayers: numOfPlayers //TODO: instead of passing as a variable, this should update the view in real time
 	});
 });
+
+app.post('/start', function(req, res) {
+	
+})
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
