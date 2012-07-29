@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+  , fs = require('fs')
   , io = require('socket.io');
 
 var app = express()
@@ -65,19 +66,15 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', function(req, res){
-	//io.sockets.in(req.sessionID).send('Man, good to see you back!');
-	io.sockets.in('trivia-room').send(Object.keys(io.sockets.in('trivia-room').manager));
-	var numOfPlayers = Object.keys(io.sockets.in('trivia-room').manager.connected).length;
-	res.render('index', { 
-			title: 'Express'
-		, numOfPlayers: numOfPlayers //TODO: instead of passing as a variable, this should update the view in real time
-	});
-});
+//Routes
+//Moved all routes to /controllers
 
-app.post('/start', function(req, res) {
-	
-})
+//Bootstrap controllers
+var controllers_path = __dirname + '/app/controllers';
+var controller_files = fs.readdirSync(controllers_path);
+controller_files.forEach(function(file) {
+require(controllers_path+'/'+file)(app, io);
+});
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
