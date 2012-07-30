@@ -15,10 +15,8 @@ function Timer(io, startTime) {
 
 /**
  * Start the timer
- * @constructor
- * @property {Socket} io Socket.io object from the app server
- * @property {Number} timeRemaining The time remaining for the current question
- * @property {intervalID} timer The intervalID used to stop the timer
+ * @method
+ * @param {Function} cb Callback function to get the next question 
  */
 Timer.prototype.start = function() {
 	var timer
@@ -31,6 +29,7 @@ Timer.prototype.start = function() {
 		thisTimer.timeRemaining -= 1;
   	if (thisTimer.timeRemaining === 0) {
   		thisTimer.timeRemaining = thisTimer.startTime;
+  		thisTimer.io.sockets.in('trivia-room').emit('new-question-handshake', true);
   	}
   	// Broadcast timer
   	thisTimer.io.sockets.in('trivia-room').emit('timer', thisTimer.timeRemaining); 

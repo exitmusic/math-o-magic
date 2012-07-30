@@ -1,6 +1,10 @@
 /**
  * Keeps track of the current question and answer.
  * @constructor
+ * @property
+ * @property
+ * @property
+ * @param
  */
 function QuestionGenerator() {
 	this.question;
@@ -30,8 +34,9 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;  
 }
 
-QuestionGenerator.prototype.init = function() {
+QuestionGenerator.prototype.getQuestion = function() {
 	this.question = generateQuestion();
+	return this.question;
 }
 
 module.exports = QuestionGenerator;

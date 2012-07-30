@@ -16,10 +16,8 @@ var app = express()
 	, server = http.createServer(app)
 	, io = io.listen(server);
 	
-var triviaMaster = new QuestionGenerator()
-	, timer = new Timer(io, 10);
-
-triviaMaster.init();
+var timer = new Timer(io, 10)
+	, triviaMaster = new QuestionGenerator(io);
 
 // From http://www.danielbaulig.de/socket-ioexpress/
 var parseCookie = require('./utils').parseCookie;
@@ -45,9 +43,15 @@ io.sockets.on('connection', function (socket) {
 	// Always reset the timer for the first player in the trivia room
 	if (io.sockets.clients('trivia-room').length === 1) {
 		timer.start();
+		triviaMaster.getQuestion();
 	} else if (io.sockets.clients('trivia-room').length === 0) {
 		timer.stop();
 	}
+	
+	socket.on('new-question-handshake', function(data) {
+		console.log(data);
+		socket.emit('new-question', triviaMaster.getQuestion());
+	});
 });
 
 app.configure(function(){

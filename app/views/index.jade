@@ -8,7 +8,12 @@ block content
     .row
       #game-board.span8
         .row
-          #question
+          #timer.span4
+            h2 Time Remaining: 
+              span.time-remaining
+          #score.span4
+        .row
+          #question.span8
             h2 4 * 4 = ?
         .row
           #answer.span6.offset1
@@ -26,10 +31,17 @@ block content
 block script
   script(src="/socket.io/socket.io.js")
   script
-    var socket = io.connect('http://localhost');
-    //var socket = io.connect('http://math-o-magic.nodejitsu.com');
+    //var socket = io.connect('http://localhost');
+    var socket = io.connect('http://math-o-magic.nodejitsu.com');
     socket.on('connect', function() {
       socket.on('timer', function(msg) {
-        console.log(msg);
-      })
+        $('#timer .time-remaining').html(msg);
+      });
+      socket.on('new-question-handshake', function(data) {
+        socket.emit('new-question-handshake', true);
+      });
+      socket.on('new-question', function(question) {
+        console.log(question);
+        $('#question h2').html(question);
+      });
     })
