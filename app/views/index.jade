@@ -22,17 +22,9 @@ block script
   script(src="/socket.io/socket.io.js")
   script
     var socket = io.connect('http://localhost');
-    //socket.on('news', function (data) {
-    //  console.log(data);
-    //  socket.emit('my other event', { my: 'data' });
-    //});
-    socket.on('connect', function () {
-      //socket.send('hi from the client');
-      socket.on('news', function (msg) {
+
+    socket.on('connect', function() {
+      socket.on('timer', function(msg) {
         console.log(msg);
-        //socket.emit('from client', 'hello, from client');
       })
-      socket.on('message', function (message) {
-        console.log(message);
-      });
     })

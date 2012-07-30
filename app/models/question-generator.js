@@ -3,10 +3,8 @@
  * @constructor
  */
 function QuestionGenerator() {
-  this.timeRemaining; //TODO: time related stuff should be its own object?
 	this.question;
 	this.answer;
-	this.timer; //TODO: time related stuff should be its own object?
 }
 
 /**
@@ -33,28 +31,7 @@ function getRandomInt(min, max) {
 }
 
 QuestionGenerator.prototype.init = function() {
-	this.timeRemaining = 10;
 	this.question = generateQuestion();
-}
-
-QuestionGenerator.prototype.startTimer = function() {
-	var timer
-		, thisGenerator = this;
-	
-	clearInterval(thisGenerator.timer); // clear any previous running timers
-	thisGenerator.timeRemaining = 10;
-  
-	timer = setInterval(function() {
-		thisGenerator.timeRemaining -= 1;
-  	if (thisGenerator.timeRemaining === 0) {
-  		clearInterval(thisGenerator.timer);
-  	}
-  }, 1000);
-  this.timer = timer;
-}
-
-QuestionGenerator.prototype.stopTimer = function() {
-	clearInterval(this.timer);
 }
 
 module.exports = QuestionGenerator;

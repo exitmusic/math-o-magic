@@ -9,21 +9,21 @@ var express = require('express')
   , path = require('path')
   , fs = require('fs')
   , io = require('socket.io')
-  , QuestionGenerator = require('./app/models/question-generator');
+  , QuestionGenerator = require('./app/models/question-generator')
+  , Timer = require('./app/models/timer');
 
 var app = express()
 	, server = http.createServer(app)
 	, io = io.listen(server);
 	
+var triviaMaster = new QuestionGenerator()
+	, timer = new Timer(io, 10);
+
+triviaMaster.init();
 
 // From http://www.danielbaulig.de/socket-ioexpress/
 var parseCookie = require('./utils').parseCookie;
-var triviaMaster = new QuestionGenerator();
-triviaMaster.init();
-console.log(triviaMaster.question);
-console.log(triviaMaster.timeRemaining);
-triviaMaster.startTimer();
-// works
+
 io.configure(function () {
 	io.set('authorization', function (data, callback) { // data = handshake data
 	  if (data.headers.cookie) {
@@ -39,17 +39,15 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-	/*console.log('sessionID: '+socket.handshake.sessionID);
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });*/
-	socket.emit('news', 'from server')
-	socket.on('from client', function (msg) {
-		//console.log(msg);
-	});
 	socket.join(socket.handshake.sessionId);
 	socket.join('trivia-room');
+	
+	// Always reset the timer for the first player in the trivia room
+	if (io.sockets.clients('trivia-room').length === 1) {
+		timer.start();
+	} else if (io.sockets.clients('trivia-room').length === 0) {
+		timer.stop();
+	}
 });
 
 app.configure(function(){
