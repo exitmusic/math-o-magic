@@ -37,10 +37,19 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-	socket.join(socket.handshake.sessionId);
+	// Join a one player room based on the player's session ID
+	socket.join(socket.handshake.sessionId); 
+	
+	// Join the public trivia room
 	socket.join('trivia-room');
 	
-	// Always reset the timer for the first player in the trivia room
+	// Get the current question for the new player
+	socket.emit('question', triviaMaster.question); 
+	
+	// Notify existing players that a new player has joined
+	io.sockets.in('trivia-room').emit('player-joined', io.sockets.clients('trivia-room').length);
+	
+	// Reset the timer for the first player in the trivia room
 	if (io.sockets.clients('trivia-room').length === 1) {
 		timer.start();
 		triviaMaster.getNewQuestion();
@@ -48,7 +57,12 @@ io.sockets.on('connection', function (socket) {
 		timer.stop();
 	}
 	
-	socket.emit('question', triviaMaster.question);
+	// Notify existing players that a player has left
+	socket.on('disconnect', function(data) {
+		io.sockets.in('trivia-room').emit('player-left', io.sockets.clients('trivia-room').length - 1);
+	})
+	
+	// The trivia master is ready to emit a new question
 	socket.on('new-question-handshake', function(data) {
 		if (!timer.isRunning) { // Only get a new question if time is out
 			timer.start();

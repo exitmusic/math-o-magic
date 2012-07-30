@@ -3,3 +3,4 @@
 #answer label{font-size:24px;font-weight:bold;}
 #num-of-players{background-color:#ddd;}#num-of-players h3{padding:10px;}
 #num-of-players ul{padding:10px;list-style:none;}
+#num-of-players li.template{display:none;}

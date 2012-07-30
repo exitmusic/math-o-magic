@@ -3,8 +3,7 @@ function routes(app, io) {
 		//io.sockets.in(req.sessionID).send('Man, good to see you back!');
 		var numOfPlayers = io.sockets.clients('trivia-room').length;
 		res.render('index', { 
-				title: 'Express'
-			, numOfPlayers: numOfPlayers //TODO: instead of passing as a variable, this should update the view in real time
+				title: 'Math-o-Magic Mental Math Room'
 		});
 	});
 	
