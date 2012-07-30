@@ -4,19 +4,24 @@ block css
   link(rel='stylesheet', href='/css/home.css')
 
 block content
-  h1 Math-o-Magic Math Trivia - Mental Math
-  #main-content
-    #num-of-players
-      h2 Number of players connected: #{numOfPlayers}
-    #game-board
-      #question
-        h2 Q. 4 * 4 = ?
-      #answer
-        form(action="/answer", method="post")
-          label(for="user-answer") 
-            h2 A.
-          input#user-answer(name="user-answer", type="text")
-          input(type="submit")
+  .container
+    .row
+      #game-board.span8
+        .row
+          #question
+            h2 4 * 4 = ?
+        .row
+          #answer.span6.offset1
+            form.well(action="/answer", method="post")
+              label(for="user-answer") A.
+              .input-append
+                input#user-answer.span4(name="user-answer", type="text")
+                input.btn.btn-primary(type="submit")
+      #num-of-players.span4
+        .row
+          h3.span4 Number of players: #{numOfPlayers}
+          ul.players
+            li Player 1
           
 block script
   script(src="/socket.io/socket.io.js")

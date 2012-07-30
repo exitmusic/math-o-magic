@@ -1,2 +1,5 @@
-h1{font-size:30px;}
-#answer h2{display:inline;}
+#game-board{background-color:#ddd;}
+#question{text-align:center;padding:50px 10px;}
+#answer label{font-size:24px;font-weight:bold;}
+#num-of-players{background-color:#ddd;}#num-of-players h3{padding:10px;}
+#num-of-players ul{padding:10px;list-style:none;}
