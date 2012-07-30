@@ -43,14 +43,19 @@ io.sockets.on('connection', function (socket) {
 	// Always reset the timer for the first player in the trivia room
 	if (io.sockets.clients('trivia-room').length === 1) {
 		timer.start();
-		triviaMaster.getQuestion();
+		triviaMaster.getNewQuestion();
 	} else if (io.sockets.clients('trivia-room').length === 0) {
 		timer.stop();
 	}
 	
+	socket.emit('question', triviaMaster.question);
 	socket.on('new-question-handshake', function(data) {
-		console.log(data);
-		socket.emit('new-question', triviaMaster.getQuestion());
+		if (!timer.isRunning) { // Only get a new question if time is out
+			timer.start();
+			socket.emit('question', triviaMaster.getNewQuestion());
+		} else { // Get the current active question that still has time remaining
+			socket.emit('question', triviaMaster.question);
+		}
 	});
 });
 

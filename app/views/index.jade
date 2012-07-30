@@ -14,7 +14,7 @@ block content
           #score.span4
         .row
           #question.span8
-            h2 4 * 4 = ?
+            h2
         .row
           #answer.span6.offset1
             form.well(action="/answer", method="post")
@@ -40,7 +40,7 @@ block script
       socket.on('new-question-handshake', function(data) {
         socket.emit('new-question-handshake', true);
       });
-      socket.on('new-question', function(question) {
+      socket.on('question', function(question) {
         console.log(question);
         $('#question h2').html(question);
       });

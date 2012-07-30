@@ -34,7 +34,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;  
 }
 
-QuestionGenerator.prototype.getQuestion = function() {
+QuestionGenerator.prototype.getNewQuestion = function() {
 	this.question = generateQuestion();
 	return this.question;
 }
