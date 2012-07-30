@@ -4,7 +4,18 @@ math-o-magic
 Math trivia game!
 
 ### File Structure
-* /app
+```
+/app             : application code
+`--/models       : models
+`--/controllers  : controllers / routes
+`--/views        : views
+/public          : static assets
+`--/css          : stylesheets
+`--/img          : images
+`--/js           : javascript files
+`--/vendor       : all 3rd party assets
+app.js           : http server and io setup
+```
 
 ### Helpful resources
 * http://derbyjs.com/
