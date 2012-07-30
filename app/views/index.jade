@@ -22,7 +22,7 @@ block script
   script(src="/socket.io/socket.io.js")
   script
     var socket = io.connect('http://localhost');
-
+    //var socket = io.connect('http://math-o-magic.nodejitsu.com');
     socket.on('connect', function() {
       socket.on('timer', function(msg) {
         console.log(msg);

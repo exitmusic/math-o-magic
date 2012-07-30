@@ -1,6 +1,6 @@
 {
   "name": "application-name",
-  "version": "0.0.1",
+  "version": "0.0.1-1",
   "private": true,
   "scripts": {
     "start": "node app"
@@ -12,5 +12,9 @@
     "connect": "2.4.2",
     "connect-less": "0.3.0",
     "cookie": "0.0.4"
+  },
+  "subdomain": "math-o-magic",
+  "engines": {
+    "node": "0.6.x"
   }
 }

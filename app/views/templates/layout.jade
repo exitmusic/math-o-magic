@@ -2,8 +2,13 @@ doctype 5
 html
   head
     title= title
-    link(rel='stylesheet', href='/css/style.css')
+    link(href="/vendor/bootstrap/css/bootstrap.min.css", rel="stylesheet")
+    style(type="text/css") body {padding-top: 60px;}
+    link(href="/vendor/bootstrap/css/bootstrap-responsive.min.css", rel="stylesheet")
     block css
   body
+    include ../includes/header
     block content
+    script(src="/vendor/jquery/jquery-1.7.2.min.js")
+    script(src='/vendor/bootstrap/js/bootstrap.min.js')
     block script

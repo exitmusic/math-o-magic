@@ -14,7 +14,7 @@ Math trivia game!
 `--/img          : images
 `--/js           : javascript files
 `--/vendor       : all 3rd party assets
-app.js           : http server and io setup
+app.js           : http server and socket.io setup
 ```
 
 ### Helpful resources
