@@ -82,6 +82,10 @@ io.sockets.on('connection', function (socket) {
 		}
 	});
 	
+	/**
+	 * Listens for answers from the clients. Correctness is validated on the client so
+	 * the answer is assumed to be correct at this point.
+	 */
 	socket.on('answer', function(data) {
 		if (qMaster.isAnswered) {
 			io.sockets.in(sessId).emit('answer-reply', {response: false, qMaster: qMaster});
@@ -89,7 +93,6 @@ io.sockets.on('connection', function (socket) {
 			qMaster.isAnswered = true;
 			io.sockets.in(sessId).emit('answer-reply', {response: true, qMaster: qMaster});
 		}
-		console.log('player '+data+' answered correctly!'+sessId);
 	});
 });
 
