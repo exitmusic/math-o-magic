@@ -1,8 +1,8 @@
 (function() {
 
 //TODO: Look into using Express deployment environments to automatically change this
-//var socket = io.connect('http://localhost');
-var socket = io.connect('http://math-o-magic.nodejitsu.com');
+var socket = io.connect('http://localhost');
+//var socket = io.connect('http://math-o-magic.nodejitsu.com');
 
 var sessionId
 	, playerNum
