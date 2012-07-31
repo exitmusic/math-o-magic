@@ -16,7 +16,7 @@ var app = express()
 	, server = http.createServer(app)
 	, io = io.listen(server);
 	
-var timer = new Timer(io, 10)
+var timer = new Timer(io, 5)
 	, qMaster = new QuestionMaster();
 
 // From http://www.danielbaulig.de/socket-ioexpress/

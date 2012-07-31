@@ -23,7 +23,7 @@ Timer.prototype.start = function() {
 		, thisTimer = this;
 	
 	clearInterval(thisTimer.timer); // clear any previous running timers
-	thisTimer.timeRemaining = 10;
+	thisTimer.timeRemaining = thisTimer.startTime;
   thisTimer.isRunning = true;
 	timer = setInterval(function() {
 		thisTimer.timeRemaining -= 1;
