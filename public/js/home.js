@@ -18,15 +18,20 @@ socket.on('connect', function() {
 	
 	// A new player has joined the room
   socket.on('player-joined', function(numOfPlayers) {
-    var playerEl = $('li.player.template').clone().removeClass('template').html('Player ' + numOfPlayers);
-    
     $('#num-of-players span.players').html(numOfPlayers);
-    $('ul.players').append(playerEl);
+    $('#player-list li').remove();
+    for (var i=1; i <= numOfPlayers; i++) {
+    	$('#player-list').append('<li>Player '+i+'</li>');
+    }
   });
   
   // A player has left the room
   socket.on('player-left', function(numOfPlayers) {
     $('#num-of-players span.players').html(numOfPlayers);
+    $('#player-list li').remove();
+    for (var i=1; i <= numOfPlayers; i++) {
+    	$('#player-list').append('<li>Player '+i+'</li>');
+    }
   });
   
   // Update global timer by seconds
