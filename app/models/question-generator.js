@@ -20,8 +20,10 @@ function generateQuestion() {
 		, y = getRandomInt(0, 10)
 		, answer = x * y;
 	
-	this.answer = answer;
-	return x + " * " + y + " = ?";
+	return {
+			question: x + " * " + y + " = ?"
+		, answer: answer
+	};
 }
 
 /**
@@ -35,8 +37,11 @@ function getRandomInt(min, max) {
 }
 
 QuestionGenerator.prototype.getNewQuestion = function() {
-	this.question = generateQuestion();
-	return this.question;
+	var newQA = generateQuestion();
+	
+	this.question = newQA.question;
+	this.answer = newQA.answer;
+	return newQA;
 }
 
 module.exports = QuestionGenerator;

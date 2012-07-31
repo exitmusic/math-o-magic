@@ -17,7 +17,7 @@ var app = express()
 	, io = io.listen(server);
 	
 var timer = new Timer(io, 10)
-	, triviaMaster = new QuestionGenerator(io);
+	, qGenerator = new QuestionGenerator(io);
 
 // From http://www.danielbaulig.de/socket-ioexpress/
 var parseCookie = require('./utils').parseCookie;
@@ -44,7 +44,7 @@ io.sockets.on('connection', function (socket) {
 	socket.join('trivia-room');
 	
 	// Get the current question for the new player
-	socket.emit('question', triviaMaster.question); 
+	socket.emit('question', qGenerator); 
 	
 	// Notify existing players that a new player has joined
 	io.sockets.in('trivia-room').emit('player-joined', io.sockets.clients('trivia-room').length);
@@ -52,7 +52,7 @@ io.sockets.on('connection', function (socket) {
 	// Reset the timer for the first player in the trivia room
 	if (io.sockets.clients('trivia-room').length === 1) {
 		timer.start();
-		triviaMaster.getNewQuestion();
+		qGenerator.getNewQuestion();
 	} else if (io.sockets.clients('trivia-room').length === 0) {
 		timer.stop();
 	}
@@ -66,9 +66,9 @@ io.sockets.on('connection', function (socket) {
 	socket.on('new-question-handshake', function(data) {
 		if (!timer.isRunning) { // Only get a new question if time is out
 			timer.start();
-			socket.emit('question', triviaMaster.getNewQuestion());
+			socket.emit('question', qGenerator.getNewQuestion());
 		} else { // Get the current active question that still has time remaining
-			socket.emit('question', triviaMaster.question);
+			socket.emit('question', qGenerator);
 		}
 	});
 });

@@ -17,8 +17,6 @@ function Timer(io, startTime) {
 
 /**
  * Start the timer
- * @method
- * @param {Function} cb Callback function to get the next question 
  */
 Timer.prototype.start = function() {
 	var timer
@@ -40,6 +38,9 @@ Timer.prototype.start = function() {
   thisTimer.timer = timer;
 }
 
+/**
+ * Stop the timer
+ */
 Timer.prototype.stop = function() {
 	clearInterval(this.timer);
 	this.isRunning = false;
