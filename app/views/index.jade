@@ -9,15 +9,17 @@ block content
       #game-board.span8
         .row
           #timer.span4
-            h2 Time Remaining: 
+            h2 Time: 
               span.time-remaining
           #score.span4
+            h2 Score: 
+              span.player-score
         .row
           #question.span8
             h2
         .row
           #answer.span6.offset1
-            form.well(action="/answer", method="post")
+            form#answer-submit.well(action="/answer", method="post")
               label(for="user-answer") A.
               .input-append
                 input#user-answer.span4(name="user-answer", type="text")

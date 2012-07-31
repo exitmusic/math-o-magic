@@ -17,7 +17,7 @@ var app = express()
 	, io = io.listen(server);
 	
 var timer = new Timer(io, 10)
-	, qGenerator = new QuestionGenerator(io);
+	, qGenerator = new QuestionGenerator();
 
 // From http://www.danielbaulig.de/socket-ioexpress/
 var parseCookie = require('./utils').parseCookie;
@@ -37,17 +37,27 @@ io.configure(function () {
 });
 
 io.sockets.on('connection', function (socket) {
-	// Join a one player room based on the player's session ID
-	socket.join(socket.handshake.sessionId); 
+	var sessId = socket.handshake.sessionId
+		, players;
+	
+	// Join a private room based on the player's session ID
+	socket.join(sessId); 
 	
 	// Join the public trivia room
 	socket.join('trivia-room');
+	numOfPlayers = io.sockets.clients('trivia-room').length;
+	
+	// Emit session id and player number to client for future use
+	io.sockets.in(sessId).emit('session', {
+			id: sessId
+		, playerNum: numOfPlayers
+	});
 	
 	// Get the current question for the new player
 	socket.emit('question', qGenerator); 
 	
 	// Notify existing players that a new player has joined
-	io.sockets.in('trivia-room').emit('player-joined', io.sockets.clients('trivia-room').length);
+	io.sockets.in('trivia-room').emit('player-joined', numOfPlayers);
 	
 	// Reset the timer for the first player in the trivia room
 	if (io.sockets.clients('trivia-room').length === 1) {
@@ -59,7 +69,7 @@ io.sockets.on('connection', function (socket) {
 	
 	// Notify existing players that a player has left
 	socket.on('disconnect', function(data) {
-		io.sockets.in('trivia-room').emit('player-left', io.sockets.clients('trivia-room').length - 1);
+		io.sockets.in('trivia-room').emit('player-left', numOfPlayers - 1);
 	})
 	
 	// The trivia master is ready to emit a new question

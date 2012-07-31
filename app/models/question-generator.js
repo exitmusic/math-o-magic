@@ -9,6 +9,7 @@
 function QuestionGenerator() {
 	this.question;
 	this.answer;
+	this.points = 100;
 }
 
 /**
