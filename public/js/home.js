@@ -44,13 +44,29 @@ socket.on('connect', function() {
     $('#question h2').html(qA.question);
     currentQA = qA;
   });
+  
+  socket.on('answer-reply', function(data) {
+  	if (data.response) {
+  		var scoreEl = $('#score .player-score');
+  		var newScore = parseInt(scoreEl.text(), 10) + data.qMaster.points;
+  		
+  		scoreEl.html(newScore);
+  	}
+  });
 });
 
 $(document).ready(function() {
 	$('#answer-submit').submit(function(e) {
-		e.preventDefault();
-		console.log(sessionId+":"+playerNum);
-		socket.emit('answer', sessionId);
+		e.preventDefault(); // don't submit until answer is verified on the client
+		
+		var answer = parseInt($('#user-answer').val(), 10);
+		
+		if (answer === currentQA.answer) {
+			socket.emit('answer', playerNum);
+		} else {
+			console.log('wrong');
+		}
+		$('#user-answer').val('');
 	});
 });
 

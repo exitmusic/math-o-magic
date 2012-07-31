@@ -6,10 +6,11 @@
  * @property
  * @param
  */
-function QuestionGenerator() {
+function QuestionMaster() {
 	this.question;
 	this.answer;
 	this.points = 100;
+	this.isAnswered = false;
 }
 
 /**
@@ -37,12 +38,13 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;  
 }
 
-QuestionGenerator.prototype.getNewQuestion = function() {
+QuestionMaster.prototype.getNewQuestion = function() {
 	var newQA = generateQuestion();
 	
 	this.question = newQA.question;
 	this.answer = newQA.answer;
+	this.isAnswered = false;
 	return newQA;
 }
 
-module.exports = QuestionGenerator;
+module.exports = QuestionMaster;

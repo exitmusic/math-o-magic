@@ -9,7 +9,7 @@ var express = require('express')
   , path = require('path')
   , fs = require('fs')
   , io = require('socket.io')
-  , QuestionGenerator = require('./app/models/question-generator')
+  , QuestionMaster = require('./app/models/question-master')
   , Timer = require('./app/models/timer');
 
 var app = express()
@@ -17,7 +17,7 @@ var app = express()
 	, io = io.listen(server);
 	
 var timer = new Timer(io, 10)
-	, qGenerator = new QuestionGenerator();
+	, qMaster = new QuestionMaster();
 
 // From http://www.danielbaulig.de/socket-ioexpress/
 var parseCookie = require('./utils').parseCookie;
@@ -54,7 +54,7 @@ io.sockets.on('connection', function (socket) {
 	});
 	
 	// Get the current question for the new player
-	socket.emit('question', qGenerator); 
+	socket.emit('question', qMaster); 
 	
 	// Notify existing players that a new player has joined
 	io.sockets.in('trivia-room').emit('player-joined', numOfPlayers);
@@ -62,7 +62,7 @@ io.sockets.on('connection', function (socket) {
 	// Reset the timer for the first player in the trivia room
 	if (io.sockets.clients('trivia-room').length === 1) {
 		timer.start();
-		qGenerator.getNewQuestion();
+		qMaster.getNewQuestion();
 	} else if (io.sockets.clients('trivia-room').length === 0) {
 		timer.stop();
 	}
@@ -76,10 +76,20 @@ io.sockets.on('connection', function (socket) {
 	socket.on('new-question-handshake', function(data) {
 		if (!timer.isRunning) { // Only get a new question if time is out
 			timer.start();
-			socket.emit('question', qGenerator.getNewQuestion());
+			socket.emit('question', qMaster.getNewQuestion());
 		} else { // Get the current active question that still has time remaining
-			socket.emit('question', qGenerator);
+			socket.emit('question', qMaster);
 		}
+	});
+	
+	socket.on('answer', function(data) {
+		if (qMaster.isAnswered) {
+			io.sockets.in(sessId).emit('answer-reply', {response: false, qMaster: qMaster});
+		} else {
+			qMaster.isAnswered = true;
+			io.sockets.in(sessId).emit('answer-reply', {response: true, qMaster: qMaster});
+		}
+		console.log('player '+data+' answered correctly!'+sessId);
 	});
 });
 
