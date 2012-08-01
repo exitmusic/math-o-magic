@@ -8,32 +8,32 @@
  * @property {boolean} isRunning Is the timer currently running?
  */
 function Timer(io, startTime) {
-	this.io = io;
-	this.startTime = startTime;
+  this.io = io;
+  this.startTime = startTime;
   this.timeRemaining;
-	this.timer;
-	this.isRunning = false;
+  this.timer;
+  this.isRunning = false;
 }
 
 /**
  * Start the timer
  */
 Timer.prototype.start = function() {
-	var timer
-		, thisTimer = this;
-	
-	clearInterval(thisTimer.timer); // clear any previous running timers
-	thisTimer.timeRemaining = thisTimer.startTime;
+  var timer
+    , thisTimer = this;
+  
+  clearInterval(thisTimer.timer); // clear any previous running timers
+  thisTimer.timeRemaining = thisTimer.startTime;
   thisTimer.isRunning = true;
-	timer = setInterval(function() {
-		thisTimer.timeRemaining -= 1;
-  	if (thisTimer.timeRemaining === 0) {
-  		thisTimer.stop();
-  		thisTimer.timeRemaining = thisTimer.startTime;
-  		thisTimer.io.sockets.in('trivia-room').emit('new-question-handshake', true);
-  	}
-  	// Broadcast timer
-  	thisTimer.io.sockets.in('trivia-room').emit('timer', thisTimer.timeRemaining); 
+  timer = setInterval(function() {
+    thisTimer.timeRemaining -= 1;
+    if (thisTimer.timeRemaining === 0) {
+      thisTimer.stop();
+      thisTimer.timeRemaining = thisTimer.startTime;
+      thisTimer.io.sockets.in('trivia-room').emit('new-question-handshake', true);
+    }
+    // Broadcast timer
+    thisTimer.io.sockets.in('trivia-room').emit('timer', thisTimer.timeRemaining); 
   }, 1000);
   thisTimer.timer = timer;
 }
@@ -42,8 +42,8 @@ Timer.prototype.start = function() {
  * Stop the timer
  */
 Timer.prototype.stop = function() {
-	clearInterval(this.timer);
-	this.isRunning = false;
+  clearInterval(this.timer);
+  this.isRunning = false;
 }
 
 module.exports = Timer;

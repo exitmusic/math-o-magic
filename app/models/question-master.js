@@ -1,16 +1,16 @@
 /**
  * Keeps track of the current question and answer.
  * @constructor
- * @property
- * @property
- * @property
- * @param
+ * @property {String} question Stores the current question
+ * @property {String} answer Stores the answer to the question
+ * @property {Number} points The number of points the question is worth
+ * @param {Boolean} isAnswered Is the current question already answered by a player?
  */
 function QuestionMaster() {
-	this.question;
-	this.answer;
-	this.points = 100;
-	this.isAnswered = false;
+  this.question;
+  this.answer;
+  this.points = 100;
+  this.isAnswered = false;
 }
 
 /**
@@ -18,14 +18,14 @@ function QuestionMaster() {
  * @method private generateQuestion
  */
 function generateQuestion() {
-	var x = getRandomInt(0, 10)
-		, y = getRandomInt(0, 10)
-		, answer = x * y;
-	
-	return {
-			question: x + " * " + y + " = ?"
-		, answer: answer
-	};
+  var x = getRandomInt(0, 10)
+    , y = getRandomInt(0, 10)
+    , answer = x * y;
+  
+  return {
+      question: x + " * " + y + " = ?"
+    , answer: answer
+  };
 }
 
 /**
@@ -39,12 +39,12 @@ function getRandomInt(min, max) {
 }
 
 QuestionMaster.prototype.getNewQuestion = function() {
-	var newQA = generateQuestion();
-	
-	this.question = newQA.question;
-	this.answer = newQA.answer;
-	this.isAnswered = false;
-	return newQA;
+  var newQA = generateQuestion();
+  
+  this.question = newQA.question;
+  this.answer = newQA.answer;
+  this.isAnswered = false;
+  return newQA;
 }
 
 module.exports = QuestionMaster;

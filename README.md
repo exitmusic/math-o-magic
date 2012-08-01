@@ -15,6 +15,7 @@ Math trivia game!
 `--/js           : javascript files
 `--/vendor       : all 3rd party assets
 app.js           : http server and socket.io setup
+utils.js         : contains the parseCookie() function taken out of connect middleware
 ```
 
 ### Helpful resources

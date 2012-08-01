@@ -1,27 +1,27 @@
 (function() {
 
 //TODO: Look into using Express deployment environments to automatically change this
-var socket = io.connect('http://localhost');
-//var socket = io.connect('http://math-o-magic.nodejitsu.com');
+//var socket = io.connect('http://localhost');
+var socket = io.connect('http://math-o-magic.nodejitsu.com');
 
 var sessionId
-	, playerNum
-	, currentQA = {};
+  , playerNum
+  , currentQA = {};
 
 //TODO: Backbone.js should have a better way to do this
 socket.on('connect', function() {
   // Store session ID for future use
-	socket.on('session', function(session) {
-		sessionId = session.id;
-		playerNum = session.playerNum
-	});
-	
-	// A new player has joined the room
+  socket.on('session', function(session) {
+    sessionId = session.id;
+    playerNum = session.playerNum
+  });
+
+  // A new player has joined the room
   socket.on('player-joined', function(numOfPlayers) {
     $('#num-of-players span.players').html(numOfPlayers);
     $('#player-list li').remove();
     for (var i=1; i <= numOfPlayers; i++) {
-    	$('#player-list').append('<li>Player '+i+'</li>');
+      $('#player-list').append('<li>Player '+i+'</li>');
     }
   });
   
@@ -30,7 +30,7 @@ socket.on('connect', function() {
     $('#num-of-players span.players').html(numOfPlayers);
     $('#player-list li').remove();
     for (var i=1; i <= numOfPlayers; i++) {
-    	$('#player-list').append('<li>Player '+i+'</li>');
+      $('#player-list').append('<li>Player '+i+'</li>');
     }
   });
   
@@ -52,28 +52,28 @@ socket.on('connect', function() {
   
   // Award points of this user is the first to answer correctly
   socket.on('answer-reply', function(data) {
-  	if (data.response) {
-  		var scoreEl = $('#score .player-score');
-  		var newScore = parseInt(scoreEl.text(), 10) + data.qMaster.points;
-  		
-  		scoreEl.html(newScore);
-  	}
+    if (data.response) {
+      var scoreEl = $('#score .player-score');
+      var newScore = parseInt(scoreEl.text(), 10) + data.qMaster.points;
+
+      scoreEl.html(newScore);
+    }
   });
 });
 
 $(document).ready(function() {
-	$('#answer-submit').submit(function(e) {
-		e.preventDefault(); // don't submit until answer is verified on the client
-		
-		var answer = parseInt($('#user-answer').val(), 10);
-		
-		if (answer === currentQA.answer) {
-			socket.emit('answer', playerNum);
-		} else {
-			console.log('wrong');
-		}
-		$('#user-answer').val('');
-	});
+  $('#answer-submit').submit(function(e) {
+    e.preventDefault(); // don't submit until answer is verified on the client
+    
+    var answer = parseInt($('#user-answer').val(), 10);
+    
+    if (answer === currentQA.answer) {
+      socket.emit('answer', playerNum);
+    } else {
+      console.log('wrong');
+    }
+    $('#user-answer').val('');
+  });
 });
 
 })();
