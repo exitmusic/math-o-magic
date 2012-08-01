@@ -20,6 +20,12 @@ app.js           : http server and socket.io setup
 utils.js         : contains the parseCookie() function taken out of connect middleware
 ```
 
+### Running mocha test cases
+```
+sudo npm install -g mocha
+mocha --reporter spec
+```
+
 ### Helpful resources
 * http://derbyjs.com/
 * http://socket.io/
