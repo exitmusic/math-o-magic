@@ -1,6 +1,4 @@
 var assert = require('assert')
-  , express = require('express')
-  , http = require('http')
   , io = require('socket.io')
   , Timer = require('../app/models/timer');
 
