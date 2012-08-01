@@ -14,6 +14,8 @@ Math trivia game!
 `--/img          : images
 `--/js           : javascript files
 `--/vendor       : all 3rd party assets
+/routes          : currently not used
+/test            : contains unit tests (mocha)
 app.js           : http server and socket.io setup
 utils.js         : contains the parseCookie() function taken out of connect middleware
 ```

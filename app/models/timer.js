@@ -25,6 +25,7 @@ Timer.prototype.start = function() {
   clearInterval(thisTimer.timer); // clear any previous running timers
   thisTimer.timeRemaining = thisTimer.startTime;
   thisTimer.isRunning = true;
+  
   timer = setInterval(function() {
     thisTimer.timeRemaining -= 1;
     if (thisTimer.timeRemaining === 0) {
