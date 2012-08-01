@@ -121,8 +121,9 @@ app.configure('development', function(){
 //Bootstrap controllers
 var controllers_path = __dirname + '/app/controllers';
 var controller_files = fs.readdirSync(controllers_path);
+
 controller_files.forEach(function(file) {
-require(controllers_path+'/'+file)(app, io);
+  require(controllers_path+'/'+file)(app, io);
 });
 
 server.listen(app.get('port'), function(){
