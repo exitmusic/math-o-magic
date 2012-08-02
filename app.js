@@ -46,8 +46,14 @@ io.sockets.on('connection', function (socket) {
     , playerExists
     , newPlayer;
   
-  // Join a private room based on the player's session ID
-  socket.join(sessId); 
+  /**
+   *  Join a private room based on the player's session ID
+   *  A session id spans multiple browser windows.
+   */
+  socket.join(sessId);
+  
+  // Join a private room based on the player's socket ID
+  socket.join(socket.id);
   
   // Join the public trivia room
   socket.join('trivia-room');
@@ -83,12 +89,8 @@ io.sockets.on('connection', function (socket) {
   // Notify existing players that a player has left
   socket.on('disconnect', function(data) {
     // Remove player from players array
-    _.map(players, function(player) {
-      if (player.socketId === socket.id) {
-        return null;
-      } else {
-        return player;
-      }
+    players = _.reject(players, function(player) {
+      return player.socketId === socket.id;
     });
     
     io.sockets.in('trivia-room').emit('player-left', {
@@ -115,14 +117,14 @@ io.sockets.on('connection', function (socket) {
     var thisPlayer = {};
     
     if (qMaster.isAnswered) {
-      io.sockets.in(sessId).emit('answer-reply', {response: false, qMaster: qMaster});
+      io.sockets.in(socket.id).emit('answer-reply', {response: false, qMaster: qMaster});
     } else {
       qMaster.isAnswered = true;
-      io.sockets.in(sessId).emit('answer-reply', {response: true, qMaster: qMaster});
+      io.sockets.in(socket.id).emit('answer-reply', {response: true, qMaster: qMaster});
       
       // Update player score
       _.map(players, function(player) {
-        if (player.sessionId === sessId) {
+        if (player.socketId === socket.id) {
           return player.score += qMaster.points;
         } else {
           return player;
