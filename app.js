@@ -2,23 +2,22 @@
 /**
  * Module dependencies.
  */
-
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
   , io = require('socket.io')
+  , _ = require('underscore')
   , QuestionMaster = require('./app/models/question-master')
-  , Timer = require('./app/models/timer');
+  , Timer = require('./app/models/timer')
+  , Player = require('./app/models/player');
 
+// Server related vars
 var app = express()
   , server = http.createServer(app)
   , io = io.listen(server);
   
-var timer = new Timer(io, 5)
-  , qMaster = new QuestionMaster();
-
 // From http://www.danielbaulig.de/socket-ioexpress/
 var parseCookie = require('./utils').parseCookie;
 
@@ -36,9 +35,15 @@ io.configure(function () {
   });
 });
 
+// Trivia room related vars
+var timer = new Timer(io, 5)
+  , qMaster = new QuestionMaster()
+  , players = [];
+
 io.sockets.on('connection', function (socket) {
   var sessId = socket.handshake.sessionId
-    , players;
+    , numOfPlayers
+    , playerExists;
   
   // Join a private room based on the player's session ID
   socket.join(sessId); 
@@ -46,6 +51,18 @@ io.sockets.on('connection', function (socket) {
   // Join the public trivia room
   socket.join('trivia-room');
   numOfPlayers = io.sockets.clients('trivia-room').length;
+  
+  // Is this a new player?
+  playerExists = _.any(players, function(player) {
+    return player.sessionId === sessId;
+  });
+  
+  // If this is a new player, create a new player and add to the array of players in the room
+  if (!playerExists) {
+    var newPlayer = new Player(numOfPlayers, sessId, 0);
+    players.push(newPlayer);
+  };
+  console.log(players);
   
   // Emit session id and player number to client for future use
   io.sockets.in(sessId).emit('session', {
@@ -57,7 +74,10 @@ io.sockets.on('connection', function (socket) {
   socket.emit('question', qMaster); 
   
   // Notify existing players that a new player has joined
-  io.sockets.in('trivia-room').emit('player-joined', numOfPlayers);
+  io.sockets.in('trivia-room').emit('player-joined', {
+      numOfPlayers: numOfPlayers
+    , players: players
+  });
   
   // Reset the timer for the first player in the trivia room
   if (io.sockets.clients('trivia-room').length === 1) {
@@ -69,7 +89,19 @@ io.sockets.on('connection', function (socket) {
   
   // Notify existing players that a player has left
   socket.on('disconnect', function(data) {
-    io.sockets.in('trivia-room').emit('player-left', numOfPlayers - 1);
+    // Remove player from players array
+    _.map(players, function(player) {
+      if (player.sessionId === sessId) {
+        return null;
+      } else {
+        return player;
+      }
+    });
+    
+    io.sockets.in('trivia-room').emit('player-left', {
+        numOfPlayers: numOfPlayers - 1
+      , players: players
+    })
   })
   
   // The trivia master is ready to emit a new question
@@ -87,12 +119,24 @@ io.sockets.on('connection', function (socket) {
    * the answer is assumed to be correct at this point.
    */
   socket.on('answer', function(data) {
+    var thisPlayer = {};
+    
     if (qMaster.isAnswered) {
       io.sockets.in(sessId).emit('answer-reply', {response: false, qMaster: qMaster});
     } else {
       qMaster.isAnswered = true;
       io.sockets.in(sessId).emit('answer-reply', {response: true, qMaster: qMaster});
+      
+      // Update player score
+      _.map(players, function(player) {
+        if (player.sessionId === sessId) {
+          return player.score += qMaster.points;
+        } else {
+          return player;
+        }
+      });
     }
+    io.sockets.in('trivia-room').emit('update-scores', players)
   });
 });
 

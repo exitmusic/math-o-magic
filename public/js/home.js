@@ -17,20 +17,28 @@ socket.on('connect', function() {
   });
 
   // A new player has joined the room
-  socket.on('player-joined', function(numOfPlayers) {
-    $('#num-of-players span.players').html(numOfPlayers);
+  socket.on('player-joined', function(data) {
+    $('#num-of-players span.players').html(data.numOfPlayers);
     $('#player-list li').remove();
-    for (var i=1; i <= numOfPlayers; i++) {
-      $('#player-list').append('<li>Player '+i+'</li>');
+    
+    for (var i=0, length = data.players.length; i < length; i++) {
+      var player = data.players[i];
+      $('#player-list').append('<li>Player '+player.id+' Score: <span>'+player.score+'</span></li>')
     }
+    
+    /*for (var i=1; i <= numOfPlayers; i++) {
+      $('#player-list').append('<li>Player '+i+'</li>');
+    }*/
   });
   
   // A player has left the room
-  socket.on('player-left', function(numOfPlayers) {
-    $('#num-of-players span.players').html(numOfPlayers);
+  socket.on('player-left', function(data) {
+    $('#num-of-players span.players').html(data.numOfPlayers);
     $('#player-list li').remove();
-    for (var i=1; i <= numOfPlayers; i++) {
-      $('#player-list').append('<li>Player '+i+'</li>');
+    
+    for (var i=0, length = data.players.length; i < length; i++) {
+      var player = data.players[i];
+      $('#player-list').append('<li>Player '+player.id+' Score: <span>'+player.score+'</span></li>')
     }
   });
   
@@ -59,6 +67,14 @@ socket.on('connect', function() {
       scoreEl.html(newScore);
     }
   });
+  
+  socket.on('update-scores', function (players) {
+    $('#player-list li').remove();
+    for (var i=0, length = players.length; i < length; i++) {
+      var player = players[i];
+      $('#player-list').append('<li>Player '+player.id+' Score: <span>'+player.score+'</span></li>')
+    }
+  })
 });
 
 $(document).ready(function() {
