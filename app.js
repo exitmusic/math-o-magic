@@ -43,7 +43,8 @@ var timer = new Timer(io, 5)
 io.sockets.on('connection', function (socket) {
   var sessId = socket.handshake.sessionId
     , numOfPlayers
-    , playerExists;
+    , playerExists
+    , newPlayer;
   
   // Join a private room based on the player's session ID
   socket.join(sessId); 
@@ -52,17 +53,9 @@ io.sockets.on('connection', function (socket) {
   socket.join('trivia-room');
   numOfPlayers = io.sockets.clients('trivia-room').length;
   
-  // Is this a new player?
-  playerExists = _.any(players, function(player) {
-    return player.sessionId === sessId;
-  });
-  
-  // If this is a new player, create a new player and add to the array of players in the room
-  if (!playerExists) {
-    var newPlayer = new Player(numOfPlayers, sessId, 0);
-    players.push(newPlayer);
-  };
-  console.log(players);
+  // Every socket (including multiple browser tabs) will be a new player
+  newPlayer = new Player(numOfPlayers, 0, sessId, socket.id);
+  players.push(newPlayer);
   
   // Emit session id and player number to client for future use
   io.sockets.in(sessId).emit('session', {
@@ -91,7 +84,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('disconnect', function(data) {
     // Remove player from players array
     _.map(players, function(player) {
-      if (player.sessionId === sessId) {
+      if (player.socketId === socket.id) {
         return null;
       } else {
         return player;
