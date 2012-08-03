@@ -19,39 +19,13 @@ socket.on('connect', function() {
   // A new player has joined the room
   socket.on('player-joined', function(data) {
     $('#num-of-players span.players').html(data.numOfPlayers);
-    $('#player-list li').remove();
-    
-    for (var i=0, length = data.players.length; i < length; i++) {
-      var player = data.players[i];
-      
-      $('#player-list').append(
-          '<li>'+
-            '<div class="row">' +
-              '<div class="player span2">Player ' + player.id + '</div>' +
-              '<div class="span2">Score: ' + player.score + '</div>' +
-            '</div>' +
-           '</li>'
-      );
-    }
+    updateScoreboard(data.players);
   });
   
   // A player has left the room
   socket.on('player-left', function(data) {
     $('#num-of-players span.players').html(data.numOfPlayers);
-    $('#player-list li').remove();
-    
-    for (var i=0, length = data.players.length; i < length; i++) {
-      var player = data.players[i];
-      
-      $('#player-list').append(
-          '<li>'+
-            '<div class="row">' +
-              '<div class="player span2">Player ' + player.id + '</div>' +
-              '<div class="span2">Score: ' + player.score + '</div>' +
-            '</div>' +
-           '</li>'
-      );
-    }
+    updateScoreboard(data.players);
   });
   
   // Update global timer by seconds
@@ -81,21 +55,27 @@ socket.on('connect', function() {
   });
   
   socket.on('update-scores', function (players) {
-    $('#player-list li').remove();
-    for (var i=0, length = players.length; i < length; i++) {
-      var player = players[i];
-      
-      $('#player-list').append(
-          '<li>'+
-            '<div class="row">' +
-              '<div class="player span2">Player ' + player.id + '</div>' +
-              '<div class="span2">Score: ' + player.score + '</div>' +
-            '</div>' +
-           '</li>'
-      )
-    }
-  })
+    updateScoreboard(players);
+  });
 });
+
+function updateScoreboard(players) {
+  var player;
+  
+  $('#player-list li').remove();
+  for (var i=0, length = players.length; i < length; i++) {
+    player = players[i];
+    
+    $('#player-list').append(
+        '<li>'+
+          '<div class="row">' +
+            '<div class="player span2">Player ' + player.id + '</div>' +
+            '<div class="span2">Score: ' + player.score + '</div>' +
+          '</div>' +
+         '</li>'
+    );
+  }
+}
 
 $(document).ready(function() {
   $('#answer-submit').submit(function(e) {

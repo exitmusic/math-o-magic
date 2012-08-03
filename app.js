@@ -46,7 +46,7 @@ io.sockets.on('connection', function (socket) {
     , playerExists
     , newPlayer
     , tempPlayer
-    , playerId = 0;
+    , playerId = 1;
   
   /**
    *  Join a private room based on the player's session ID
