@@ -23,12 +23,16 @@ socket.on('connect', function() {
     
     for (var i=0, length = data.players.length; i < length; i++) {
       var player = data.players[i];
-      $('#player-list').append('<li>Player '+player.id+' Score: <span>'+player.score+'</span></li>')
+      
+      $('#player-list').append(
+          '<li>'+
+            '<div class="row">' +
+              '<div class="player span2">Player ' + player.id + '</div>' +
+              '<div class="span2">Score: ' + player.score + '</div>' +
+            '</div>' +
+           '</li>'
+      );
     }
-    
-    /*for (var i=1; i <= numOfPlayers; i++) {
-      $('#player-list').append('<li>Player '+i+'</li>');
-    }*/
   });
   
   // A player has left the room
@@ -38,7 +42,15 @@ socket.on('connect', function() {
     
     for (var i=0, length = data.players.length; i < length; i++) {
       var player = data.players[i];
-      $('#player-list').append('<li>Player '+player.id+' Score: <span>'+player.score+'</span></li>')
+      
+      $('#player-list').append(
+          '<li>'+
+            '<div class="row">' +
+              '<div class="player span2">Player ' + player.id + '</div>' +
+              '<div class="span2">Score: ' + player.score + '</div>' +
+            '</div>' +
+           '</li>'
+      );
     }
   });
   
@@ -72,7 +84,15 @@ socket.on('connect', function() {
     $('#player-list li').remove();
     for (var i=0, length = players.length; i < length; i++) {
       var player = players[i];
-      $('#player-list').append('<li>Player '+player.id+' Score: <span>'+player.score+'</span></li>')
+      
+      $('#player-list').append(
+          '<li>'+
+            '<div class="row">' +
+              '<div class="player span2">Player ' + player.id + '</div>' +
+              '<div class="span2">Score: ' + player.score + '</div>' +
+            '</div>' +
+           '</li>'
+      )
     }
   })
 });

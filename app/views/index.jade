@@ -13,7 +13,7 @@ block content
               #timer.span2
                 h2 Time: 
                   span.time-remaining
-              #score.span2.offset4
+              #score.span2.offset3
                 h2 Score: 
                   span.player-score 0
         .row
@@ -24,11 +24,11 @@ block content
             form#answer-submit.span6.offset1(action="/answer", method="post")
               label(for="user-answer")
               .input-append
-                input#user-answer.span5(name="user-answer", type="text")
-                input.btn.btn-primary(type="submit")
+                input#user-answer.span5(name="user-answer", type="number")
+                input.btn.btn-primary.span1(type="submit", value="Go")
       #num-of-players.span4
         .row
-          h2.span4 Number of players: 
+          h2.span4 Players: 
             span.players
         .row
           ul#player-list.span4

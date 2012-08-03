@@ -44,7 +44,9 @@ io.sockets.on('connection', function (socket) {
   var sessId = socket.handshake.sessionId
     , numOfPlayers
     , playerExists
-    , newPlayer;
+    , newPlayer
+    , tempPlayer
+    , playerId = 0;
   
   /**
    *  Join a private room based on the player's session ID
@@ -59,8 +61,16 @@ io.sockets.on('connection', function (socket) {
   socket.join('trivia-room');
   numOfPlayers = io.sockets.clients('trivia-room').length;
   
+  // Get the next available player id
+  if (players.length !== 0) {
+    tempPlayer = _.max(players, function(player) {
+      return player.id;
+    });
+    playerId = tempPlayer.id + 1;
+  }
+  
   // Every socket (including multiple browser tabs) will be a new player
-  newPlayer = new Player(numOfPlayers, 0, sessId, socket.id);
+  newPlayer = new Player(playerId, 0, sessId, socket.id);
   players.push(newPlayer);
   
   // Emit session id and player number to client for future use
@@ -94,7 +104,7 @@ io.sockets.on('connection', function (socket) {
     });
     
     io.sockets.in('trivia-room').emit('player-left', {
-        numOfPlayers: numOfPlayers - 1
+        numOfPlayers: numOfPlayers
       , players: players
     })
   })
