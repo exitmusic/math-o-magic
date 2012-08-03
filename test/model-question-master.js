@@ -15,10 +15,29 @@ describe('QuestionMaster', function() {
   });
   
   describe('#getNewQuestion', function() {
-    it('should generate a new question and answer', function() {
-      qmaster.getNewQuestion();
+    it('should return a new question and answer', function() {
+      var qaObject;
+      
+      qaObject = qmaster.getNewQuestion();
+      assert(qaObject.question, 'A question is missing');
+      assert(qaObject.answer, 'An answer is missing');
       assert(qmaster.question, 'A question is missing');
       assert(qmaster.answer, 'An answer is missing');
+    });
+    
+    it('should set the current QuestionMaster instance with the new Q&A', function() {
+      var qaObject;
+      
+      qaObject = qmaster.getNewQuestion();
+      assert.equal(qmaster.question, qaObject.question, 'The instance question does not match the question returned');
+      assert.equal(qmaster.answer, qaObject.answer, 'The instance answer does not match the answer returned');
+    });
+    
+    it('should reset the status of the question to "unanswered"', function() {
+      var qaObject;
+      
+      qaObject = qmaster.getNewQuestion();
+      assert.equal(qmaster.isAnswered, false , 'The status of the new question is not "unanswered"');
     });
   });
 });

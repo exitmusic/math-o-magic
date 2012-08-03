@@ -16,7 +16,8 @@ function Timer(io, startTime) {
 }
 
 /**
- * Start the timer
+ * Starts the timer
+ * @method start
  */
 Timer.prototype.start = function() {
   var timer
@@ -28,11 +29,16 @@ Timer.prototype.start = function() {
   
   timer = setInterval(function() {
     thisTimer.timeRemaining -= 1;
+    
+    // Emit the time every second, stop the timer once it reaches zero
     if (thisTimer.timeRemaining === 0) {
       thisTimer.stop();
       thisTimer.timeRemaining = thisTimer.startTime;
+      
+      // Notifies the clients a new question is ready to be retrieved
       thisTimer.io.sockets.in('trivia-room').emit('new-question-handshake', true);
     }
+    
     // Broadcast timer
     thisTimer.io.sockets.in('trivia-room').emit('timer', thisTimer.timeRemaining); 
   }, 1000);
@@ -40,7 +46,8 @@ Timer.prototype.start = function() {
 }
 
 /**
- * Stop the timer
+ * Stops the timer
+ * @method stop
  */
 Timer.prototype.stop = function() {
   clearInterval(this.timer);

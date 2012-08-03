@@ -1,9 +1,10 @@
 /**
  * Stores the properties associated with a trivia player
  * @constructor
- * @property {Number} id The numeric player id 
+ * @property {Number} id An assigned integer player id
+ * @property {Number} score Number of points this player has accumulated
  * @property {String} sessionId The session id of this player
- * @property {Number} score The number of points this player has
+ * @property {String} socketId The socket id of this player
  */
 function Player(id, score, sessionId, socketId) {
   this.id = id;

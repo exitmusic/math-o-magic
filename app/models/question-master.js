@@ -38,6 +38,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;  
 }
 
+/**
+ * Returns a new question and answer object and also sets the current QuestionMaster instance
+ * @method getNewQuestion
+ */
 QuestionMaster.prototype.getNewQuestion = function() {
   var newQA = generateQuestion();
   
