@@ -13,6 +13,8 @@ Math trivia game!
 `--/css          : stylesheets
 `--/img          : images
 `--/js           : javascript files
+   `--/models    : backbone models (in progress)
+   `--/views     : backbone views (in progress)
 `--/vendor       : all 3rd party assets
 /routes          : currently not used
 /test            : contains unit tests (mocha)
