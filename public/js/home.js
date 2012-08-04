@@ -7,7 +7,7 @@ var socket = io.connect('http://localhost');
 var sessionId
   , playerNum
   , currentQA = {};
-
+  
 //TODO: Backbone.js should have a better way to do this
 socket.on('connect', function() {
   // Store session ID for future use
