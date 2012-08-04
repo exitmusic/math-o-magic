@@ -12,7 +12,6 @@ $(document).ready(function() {
       });
       this.connect();
       this.bindEvents();
-      console.log('wat');
     },
     connect: function() {
       var _this = this
@@ -31,20 +30,24 @@ $(document).ready(function() {
       socket.on('connect', function() {
         // Store session ID for future use
         socket.on('session', function(session) {
-          sessionId = session.id;
-          playerNum = session.playerNum
+          _this.set({
+              sessionId: session.id
+            , playerNum: session.playerNum
+          });
         });
 
         // A new player has joined the room
         socket.on('player-joined', function(data) {
-          $('#num-of-players span.players').html(data.numOfPlayers);
-          updateScoreboard(data.players);
+          _this.trigger('updateScoreboardEvent', data);
+          //$('#num-of-players span.players').html(data.numOfPlayers);
+          //updateScoreboard(data.players);
         });
         
         // A player has left the room
         socket.on('player-left', function(data) {
-          $('#num-of-players span.players').html(data.numOfPlayers);
-          updateScoreboard(data.players);
+          _this.trigger('updateScoreboardEvent', data);
+          //$('#num-of-players span.players').html(data.numOfPlayers);
+          //updateScoreboard(data.players);
         });
         
         // Update global timer by seconds
@@ -74,7 +77,8 @@ $(document).ready(function() {
         });
         
         socket.on('update-scores', function (players) {
-          updateScoreboard(players);
+          _this.trigger('updateScoreboardEvent', players);
+          //updateScoreboard(players);
         });
       });
     }
@@ -114,4 +118,7 @@ $(document).ready(function() {
 
   
   var game = new TriviaGame;
+  //console.log(game.get('socket'));
+  //console.log(game.get('sessionId'));
+  //console.log(game.get('playerNum'));
 })
