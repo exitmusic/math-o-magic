@@ -39,17 +39,21 @@ $(document).ready(function() {
 
         // A new player has joined the room
         socket.on('player-joined', function(data) {
-          _this.set({numOfPlayers: data.numOfPlayers});
+          //_this.set({numOfPlayers: data.numOfPlayers});
+          $('#num-of-players span.players').html(data.numOfPlayers);
           _this.trigger('updateScoreboardEvent', data.players);
           
-          //$('#num-of-players span.players').html(data.numOfPlayers);
+          
           //updateScoreboard(data.players);
         });
         
         // A player has left the room
         socket.on('player-left', function(data) {
-          _this.trigger('updateScoreboardEvent', data.players);
+          //console.log(data.players.length);
           $('#num-of-players span.players').html(data.numOfPlayers);
+          //console.log(data.numOfPlayers);
+          _this.trigger('updateScoreboardEvent', data.players);
+          
           //updateScoreboard(data.players);
         });
         

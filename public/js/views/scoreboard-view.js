@@ -1,6 +1,6 @@
 $(document).ready(function() {
   window.ScoreboardView = Backbone.View.extend({
-    el: $('player-list'),
+    el: $('#player-list'),
     initialize: function() {
       this.model.bind('updateScoreboardEvent', this.updateScoreboard, this);
     },

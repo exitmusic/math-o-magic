@@ -76,7 +76,7 @@ io.sockets.on('connection', function (socket) {
   // Emit session id and player number to client for future use
   io.sockets.in(sessId).emit('session', {
       id: sessId
-    , playerNum: numOfPlayers
+    , playerNum: playerId
   });
   
   // Get the current question for the new player
@@ -98,13 +98,13 @@ io.sockets.on('connection', function (socket) {
   
   // Notify existing players that a player has left
   socket.on('disconnect', function(data) {
-    // Remove player from players array
+    // Remove disconnected player from players array
     players = _.reject(players, function(player) {
       return player.socketId === socket.id;
     });
     
     io.sockets.in('trivia-room').emit('player-left', {
-        numOfPlayers: numOfPlayers
+        numOfPlayers: players.length
       , players: players
     })
   })
