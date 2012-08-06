@@ -124,8 +124,7 @@ io.sockets.on('connection', function (socket) {
    * the answer is assumed to be correct at this point.
    */
   socket.on('answer', function(data) {
-    var thisPlayer = {};
-    
+    // Only award points if the question has not already been answered by another player
     if (qMaster.isAnswered) {
       io.sockets.in(socket.id).emit('answer-reply', {response: false, qMaster: qMaster});
     } else {

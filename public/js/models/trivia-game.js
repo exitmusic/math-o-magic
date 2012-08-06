@@ -7,8 +7,9 @@ $(document).ready(function() {
       this.set({
           socket: {}
         , sessionId: ''
-        , playerNum: 0
-        , currentQA: {}
+        , playerNum: 0     // Player number of this client
+        , currentQA: {}    // Current question displayed
+        , numOfPlayers: 0  // Number of players currently playing
       });
       this.connect();
       this.bindEvents();
@@ -38,15 +39,17 @@ $(document).ready(function() {
 
         // A new player has joined the room
         socket.on('player-joined', function(data) {
-          _this.trigger('updateScoreboardEvent', data);
+          _this.set({numOfPlayers: data.numOfPlayers});
+          _this.trigger('updateScoreboardEvent', data.players);
+          
           //$('#num-of-players span.players').html(data.numOfPlayers);
           //updateScoreboard(data.players);
         });
         
         // A player has left the room
         socket.on('player-left', function(data) {
-          _this.trigger('updateScoreboardEvent', data);
-          //$('#num-of-players span.players').html(data.numOfPlayers);
+          _this.trigger('updateScoreboardEvent', data.players);
+          $('#num-of-players span.players').html(data.numOfPlayers);
           //updateScoreboard(data.players);
         });
         
@@ -81,44 +84,19 @@ $(document).ready(function() {
           //updateScoreboard(players);
         });
       });
-    }
-  });
-  
-  function updateScoreboard(players) {
-    var player;
-    
-    $('#player-list li').remove();
-    for (var i=0, length = players.length; i < length; i++) {
-      player = players[i];
       
-      $('#player-list').append(
-          '<li>'+
-            '<div class="row">' +
-              '<div class="player span2">Player ' + player.id + '</div>' +
-              '<div class="span2">Score: ' + player.score + '</div>' +
-            '</div>' +
-           '</li>'
-      );
+      $('#answer-submit').submit(function(e) {
+        e.preventDefault(); // don't submit until answer is verified on the client
+        
+        var answer = parseInt($('#user-answer').val(), 10);
+        
+        if (answer === currentQA.answer) {
+          socket.emit('answer', answer);
+        } else {
+          console.log('wrong');
+        }
+        $('#user-answer').val('');
+      });
     }
-  }
-
-
-  $('#answer-submit').submit(function(e) {
-    e.preventDefault(); // don't submit until answer is verified on the client
-    
-    var answer = parseInt($('#user-answer').val(), 10);
-    
-    if (answer === currentQA.answer) {
-      socket.emit('answer', playerNum);
-    } else {
-      console.log('wrong');
-    }
-    $('#user-answer').val('');
   });
-
-  
-  var game = new TriviaGame;
-  //console.log(game.get('socket'));
-  //console.log(game.get('sessionId'));
-  //console.log(game.get('playerNum'));
-})
+});
