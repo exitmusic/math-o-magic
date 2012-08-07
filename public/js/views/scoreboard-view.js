@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  /**
+   * Displays the scores of all the players currently in the trivia room
+   */
   window.ScoreboardView = Backbone.View.extend({
     el: $('#num-of-players'),
     initialize: function() {

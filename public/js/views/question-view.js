@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  /**
+   * Displays the current trivia question
+   */
   window.QuestionView = Backbone.View.extend({
     el: $('#question'),
     initialize: function() {

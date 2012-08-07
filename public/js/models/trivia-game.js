@@ -71,10 +71,6 @@ $(document).ready(function() {
         socket.on('answer-reply', function(data) {
           if (data.response) {
             _this.trigger('updatePlayerScoreEvent', data.qMaster.points);
-            //var scoreEl = $('#score .player-score');
-            var newScore = parseInt(scoreEl.text(), 10) + data.qMaster.points;
-
-            scoreEl.html(newScore);
           }
         });
         

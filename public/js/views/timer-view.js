@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  /**
+   * Displays the time remaining for the current question
+   */
   window.TimerView = Backbone.View.extend({
     el: $('#timer'),
     initialize: function() {

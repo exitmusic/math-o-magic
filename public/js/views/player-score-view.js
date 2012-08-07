@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  /**
+   * Displays the individual score for the player in the trivia room
+   */
   window.PlayerScoreView = Backbone.View.extend({
     el: $('#score'),
     initialize: function() {
