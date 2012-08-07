@@ -11,4 +11,4 @@ h2{font-size:20px;}
 #num-of-players .players-bar{background-color:#444;color:white;padding:10px 0;text-align:center;outline:1px solid black;}#num-of-players .players-bar .signage{text-align:right;}
 #num-of-players ul{padding:10px 0;list-style:none;}#num-of-players ul li{margin-bottom:10px;background-color:#ccc;font-weight:bold;font-size:18px;padding:10px 0;outline:1px solid black;}
 #num-of-players #player-list .player{text-align:center;}
-#extra-class{margin:100px 0 0;height:100px;background:url(../img/mustache.png) center;}
+#extra-class{margin:100px 0 0;height:100px;background:url(../img/mustache.png) no-repeat center;}
