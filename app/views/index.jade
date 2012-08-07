@@ -15,11 +15,11 @@ block content
             .row
               #timer.span4
                 .row
-                  h2.span1.offset1 Time: 
+                  h2.span1.offset1 Time
                   h2.time-remaining.span1 0
               #score.span4
                 .row
-                  h2.span1.offset1 Score: 
+                  h2.span1.offset1 Score
                   h2.player-score.span1 0
         .row
           #question.span8
@@ -33,8 +33,10 @@ block content
                 input.btn.btn-primary.span1(type="submit", value="Go")
       #num-of-players.span4
         .row
-          h2.span4 Players: 
-            span.players
+          .players-bar.span4
+            .row
+              h2.signage.span2 Players
+              h2.players.span2
         .row
           ul#player-list.span4
           

@@ -9,7 +9,7 @@ $(document).ready(function() {
       this.model.bind('updateScoreboardEvent', this.updateScoreboard, this);
     },
     updatePlayerCount: function(count) {
-      this.$el.find($('span.players')).html(count);
+      this.$el.find($('h2.players')).html(count);
     },
     updateScoreboard: function(players) {
       var player;
