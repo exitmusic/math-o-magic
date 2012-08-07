@@ -52,8 +52,8 @@ $(document).ready(function() {
         });
         
         // Update global timer by seconds
-        socket.on('timer', function(msg) {
-          $('#timer span.time-remaining').html(msg);
+        socket.on('timer', function(time) {
+          _this.trigger('timeRemainingEvent', time);
         });
         
         // Notify the server that the client is ready for a new question
@@ -63,9 +63,8 @@ $(document).ready(function() {
         
         // Get the current question/answer
         socket.on('question', function(qA) {
-          _this.trigger('newQuestionEvent', qA.question);
-          //$('#question h2').html(qA.question);
           currentQA = qA;
+          _this.trigger('newQuestionEvent', qA.question);
         });
         
         // Award points of this user is the first to answer correctly
