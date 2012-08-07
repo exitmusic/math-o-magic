@@ -7,7 +7,9 @@ block content
   .container
     .row
       #hero.span12
+        img(src="/img/mustache.png", height="50px", width="50px")
         h1 Test your mental math abilities
+        img(src="/img/mustache.png", height="50px", width="50px") 
     .row
       #game-board.span8
         .row
@@ -29,7 +31,7 @@ block content
             form#answer-submit.span6.offset1(action="/answer", method="post")
               label(for="user-answer")
               .input-append
-                input#user-answer.span5(name="user-answer", type="number")
+                input#user-answer.span5(name="user-answer", type="number", autocomplete="off")
                 input.btn.btn-primary.span1(type="submit", value="Go")
       #num-of-players.span4
         .row
@@ -39,6 +41,8 @@ block content
               h2.players.span2
         .row
           ul#player-list.span4
+    .row
+      #extra-class.span12
           
 block script
   script(src="/socket.io/socket.io.js")
