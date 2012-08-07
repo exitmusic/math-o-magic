@@ -12,7 +12,7 @@ block content
             .row
               #timer.span2
                 h2 Time: 
-                  span.time-remaining
+                  span.time-remaining 0
               #score.span2.offset3
                 h2 Score: 
                   span.player-score 0
@@ -37,5 +37,6 @@ block script
   script(src="/socket.io/socket.io.js")
   script(src="/js/models/trivia-game.js")
   script(src="/js/views/scoreboard-view.js")
+  script(src="/js/views/question-view.js")
   script(src="/js/home.js")
   

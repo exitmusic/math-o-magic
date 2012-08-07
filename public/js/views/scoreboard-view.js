@@ -1,16 +1,21 @@
 $(document).ready(function() {
   window.ScoreboardView = Backbone.View.extend({
-    el: $('#player-list'),
+    el: $('#num-of-players'),
     initialize: function() {
+      this.model.bind('updatePlayerCountEvent', this.updatePlayerCount, this);
       this.model.bind('updateScoreboardEvent', this.updateScoreboard, this);
+    },
+    updatePlayerCount: function(count) {
+      this.$el.find($('span.players')).html(count);
     },
     updateScoreboard: function(players) {
       var player;
       
-      $('#player-list li').remove();
+     $('#player-list').find('li').remove();
       for (var i=0, length = players.length; i < length; i++) {
         player = players[i];
         
+        //TODO: template this
         $('#player-list').append(
             '<li>'+
               '<div class="row">' +

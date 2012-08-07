@@ -39,22 +39,16 @@ $(document).ready(function() {
 
         // A new player has joined the room
         socket.on('player-joined', function(data) {
-          //_this.set({numOfPlayers: data.numOfPlayers});
-          $('#num-of-players span.players').html(data.numOfPlayers);
+          _this.set({numOfPlayers: data.numOfPlayers});
+          _this.trigger('updatePlayerCountEvent', data.numOfPlayers);
           _this.trigger('updateScoreboardEvent', data.players);
-          
-          
-          //updateScoreboard(data.players);
         });
         
         // A player has left the room
         socket.on('player-left', function(data) {
-          //console.log(data.players.length);
-          $('#num-of-players span.players').html(data.numOfPlayers);
-          //console.log(data.numOfPlayers);
+          _this.set({numOfPlayers: data.numOfPlayers});
+          _this.trigger('updatePlayerCountEvent', data.numOfPlayers);
           _this.trigger('updateScoreboardEvent', data.players);
-          
-          //updateScoreboard(data.players);
         });
         
         // Update global timer by seconds
@@ -69,7 +63,8 @@ $(document).ready(function() {
         
         // Get the current question/answer
         socket.on('question', function(qA) {
-          $('#question h2').html(qA.question);
+          _this.trigger('newQuestionEvent', qA.question);
+          //$('#question h2').html(qA.question);
           currentQA = qA;
         });
         
@@ -85,7 +80,6 @@ $(document).ready(function() {
         
         socket.on('update-scores', function (players) {
           _this.trigger('updateScoreboardEvent', players);
-          //updateScoreboard(players);
         });
       });
       
