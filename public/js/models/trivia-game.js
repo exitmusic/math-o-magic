@@ -70,7 +70,8 @@ $(document).ready(function() {
         // Award points of this user is the first to answer correctly
         socket.on('answer-reply', function(data) {
           if (data.response) {
-            var scoreEl = $('#score .player-score');
+            _this.trigger('updatePlayerScoreEvent', data.qMaster.points);
+            //var scoreEl = $('#score .player-score');
             var newScore = parseInt(scoreEl.text(), 10) + data.qMaster.points;
 
             scoreEl.html(newScore);
