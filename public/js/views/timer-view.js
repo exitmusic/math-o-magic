@@ -8,7 +8,7 @@ $(document).ready(function() {
       this.model.bind('timeRemainingEvent', this.timeRemaining, this);
     },
     timeRemaining: function(time) {
-      this.$el.find($('span.time-remaining')).html(time);
+      this.$el.find($('h2.time-remaining')).html(time);
     }
   });
 });

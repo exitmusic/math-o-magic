@@ -1,8 +1,12 @@
-
-.game-status{text-align:center;background-color:#555;color:white;padding:10px 0;}
-#score{text-align:center;background-color:#555;color:white;}
-#question{background-color:#ccc;text-align:center;padding:50px 0;margin-top:10px;}#question h2{font-size:60px;}
-#answer{background-color:#ccc;padding:15px 0 0;margin-top:10px;}#answer label{font-size:24px;font-weight:bold;}
-#num-of-players h2{background-color:#555;color:white;padding:10px 0;text-align:center;}
-#num-of-players ul{padding:10px 0;list-style:none;}#num-of-players ul li{margin-bottom:10px;background-color:#ccc;font-weight:bold;font-size:20px;padding:10px 0;}
+body{background:url(../img/argyle-tile.gif) repeat;font-family:'Quicksand',sans-serif;}
+h2{font-size:20px;}
+#hero{text-align:center;padding:30px 0;color:white;}
+.game-status{text-align:center;background-color:#555;color:white;padding:10px 0;outline:1px solid black;}
+#timer .time-remaining{font-size:20px;font-weight:bold;}
+#score{text-align:center;background-color:#555;color:white;position:relative;}#score h2{text-align:right;}
+#score #points-notify{position:absolute;left:188px;top:-10px;}
+#question{background-color:#ccc;color:black;text-align:center;padding:40px 0;margin-top:10px;outline:1px solid black;}#question h2{font-size:60px;}
+#answer{background-color:#ccc;padding:15px 0 0;margin-top:10px;outline:1px solid black;}#answer label{font-size:24px;font-weight:bold;}
+#num-of-players h2{background-color:#555;color:white;padding:10px 0;text-align:center;outline:1px solid black;}
+#num-of-players ul{padding:10px 0;list-style:none;}#num-of-players ul li{margin-bottom:10px;background-color:#ccc;font-weight:bold;font-size:18px;padding:10px 0;outline:1px solid black;}
 #num-of-players #player-list .player{text-align:center;}

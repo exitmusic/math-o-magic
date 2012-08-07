@@ -6,16 +6,21 @@ block css
 block content
   .container
     .row
+      #hero.span12
+        h1 Test your mental math abilities
+    .row
       #game-board.span8
         .row
           .game-status.span8
             .row
-              #timer.span2
-                h2 Time: 
-                  span.time-remaining 0
-              #score.span2.offset3
-                h2 Score: 
-                  span.player-score 0
+              #timer.span4
+                .row
+                  h2.span1.offset1 Time: 
+                  h2.time-remaining.span1 0
+              #score.span4
+                .row
+                  h2.span1.offset1 Score: 
+                  h2.player-score.span1 0
         .row
           #question.span8
             h2

@@ -23,7 +23,7 @@ $(document).ready(function() {
             '<li>'+
               '<div class="row">' +
                 '<div class="player span2">Player ' + player.id + '</div>' +
-                '<div class="span2">Score: ' + player.score + '</div>' +
+                '<div class="score span1 offset1">' + player.score + '</div>' +
               '</div>' +
              '</li>'
         );
