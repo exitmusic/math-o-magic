@@ -20,7 +20,7 @@ $(document).ready(function() {
         , dev = 'http://localhost'
         , prod = 'http://math-o-magic.nodejitsu.com';
       
-      socket = io.connect(prod);
+      socket = io.connect(dev);
       _this.set({socket: socket});
     },
     bindEvents: function() {

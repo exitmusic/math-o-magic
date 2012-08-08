@@ -14,7 +14,7 @@ $(document).ready(function() {
     updateScoreboard: function(players) {
       var player;
       
-     $('#player-list').find('li').remove();
+      $('#player-list').find('li').remove();
       for (var i=0, length = players.length; i < length; i++) {
         player = players[i];
         
