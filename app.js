@@ -155,7 +155,8 @@ app.configure(function(){
   app.use(express.cookieParser());
   app.use(express.session({secret: 'secret', key: 'express.sid'}));
   app.use(app.router);
-  app.use(require('connect-less')({ src: __dirname + '/public/', compress: true }));
+  app.use(require('connect-less')({ src: __dirname + '/public/', compress: true })); // Less compiler
+  app.use(require('connect-assets')({src: 'public'})); // CoffeeScript compiler
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
