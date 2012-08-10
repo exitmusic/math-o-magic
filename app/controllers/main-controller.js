@@ -6,18 +6,6 @@ function routes(app, io) {
       title: 'Math-o-Magic Mental Math Room'
     });
   });
-  
-  app.post('/start', function(req, res) {
-    
-  });
-  
-  app.post('/question', function(req, res) {
-    
-  });
-  
-  app.post('/answer', function(req, res) {
-    
-  });
 }
 
 module.exports = routes;
