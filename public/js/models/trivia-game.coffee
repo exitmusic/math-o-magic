@@ -17,7 +17,7 @@ $(document).ready ->
       dev = 'http://localhost'
       prod = 'http://math-o-magic.nodejitsu.com'
       
-      socket = io.connect(dev)
+      socket = io.connect(prod)
       _this.set socket: socket
 
     bindEvents: ->
