@@ -17,17 +17,15 @@ $(document).ready ->
       dev = 'http://localhost'
       prod = 'http://math-o-magic.nodejitsu.com'
       
-      socket = io.connect(prod)
+      socket = io.connect(dev)
       _this.set socket: socket
 
     bindEvents: ->
       _this = this
-      socket
-      
       socket = _this.get('socket')
       socket.on 'connect', ->
         # Store session ID for future use
-        socket.on 'session', ->
+        socket.on 'session', (session) ->
           _this.set
             sessionId: session.id
             playerNum: session.playerNum
@@ -54,7 +52,7 @@ $(document).ready ->
         
         # Get the current question/answer
         socket.on 'question', (questionAnswer) ->
-          currentQA = questionAnswer
+          _this.set currentQA: questionAnswer
           _this.trigger 'newQuestionEvent', questionAnswer.question
         
         # Award points of this user is the first to answer correctly
@@ -67,8 +65,9 @@ $(document).ready ->
       $('#answer-submit').submit (e) ->
         e.preventDefault() # don't submit until answer is verified on the client
         answer = parseInt($('#user-answer').val(), 10)
+        expectedAnswer = _this.get('currentQA').answer
         
-        if answer is currentQA.answer
+        if answer is expectedAnswer
           socket.emit 'answer', answer
         else
           console.log('wrong')
