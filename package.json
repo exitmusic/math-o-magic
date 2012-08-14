@@ -3,7 +3,8 @@
   "version": "0.0.1-18",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node app",
+    "test": "expresso --reporter spec"
   },
   "dependencies": {
     "express": "3.0.0rc1",
