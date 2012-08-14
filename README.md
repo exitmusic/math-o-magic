@@ -1,5 +1,6 @@
-math-o-magic
+math-o-magic [![Build Status](https://secure.travis-ci.org/exitmusic/math-o-magic.png)](http://travis-ci.org/exitmusic/math-o-magic)
 ============
+
 
 Math trivia game!
 
