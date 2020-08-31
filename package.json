@@ -10,7 +10,7 @@
     "express": "3.0.0rc1",
     "jade": "*",
     "socket.io": "0.9.8",
-    "connect": "2.4.2",
+    "connect": "3.7.0",
     "connect-less": "0.3.0",
     "connect-assets": "2.3.1",
     "cookie": "0.0.4",
